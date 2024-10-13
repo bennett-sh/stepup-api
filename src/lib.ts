@@ -1,4 +1,4 @@
-import type { AccountType, ActivityResponse, ApiUser, Leaderboard, StepUpAPIInit } from './types.js'
+import type { AccountType, ActivityResponse, ApiUser, Leaderboard, StepUpInit } from './types.js'
 import { InvalidLoginDataError, UnsupportedAccountTypeError } from './errors.js'
 import { decode } from 'jsonwebtoken'
 
@@ -21,14 +21,14 @@ export function getApiUserFromToken(token: string): ApiUser | null {
   }
 }
 
-export class StepUpAPI {
-  private auth: StepUpAPIInit['auth']
+export class StepUp {
+  private auth: StepUpInit['auth']
   private user: ApiUser | null = null
 
   private apiUrl = 'https://stepup-api.azurewebsites.net'
   private apiEndingPathname = 'd05f8abd-9b4b-489f-837e-acbc86477b66'
 
-  public constructor(init: StepUpAPIInit) {
+  public constructor(init: StepUpInit) {
     this.login(init.auth.type, init.auth.token)
 
     this.apiUrl ??= init.api?.url
@@ -89,7 +89,7 @@ export class StepUpAPI {
     })
   }
 
-  public async nudge(options: {
+  public async poke(options: {
     expression: 'nudge' | 'cheer' | 'taunt',
     recipientId: string,
     recipientType: string,

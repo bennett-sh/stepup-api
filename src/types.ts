@@ -1,7 +1,7 @@
 
 export type AccountType = 'google' | 'apple' | 'facebook' | 'bot'
 
-export type StepUpAPIInit = {
+export type StepUpInit = {
   auth: {
     type: AccountType,
     token: string
