@@ -1,7 +1,6 @@
 import type { AccountType, ActivityResponse, ApiUser, Leaderboard, StepUpAPIInit } from './types.js'
 import { InvalidLoginDataError, UnsupportedAccountTypeError } from './errors.js'
 import { decode } from 'jsonwebtoken'
-import { writeFileSync } from 'fs'
 
 export * from './errors.js'
 export * as types from './types.js'
@@ -60,26 +59,9 @@ export class StepUpAPI {
         )
       )
     )
-    console.log(search.toString())
     const url = `${this.apiUrl}/${endpoint}/${this.apiEndingPathname}?${search.toString()}`
     const isJSONBody = options.body && typeof options.body !== 'string'
-
-    writeFileSync(`request-${Date.now()}-${Math.round(Math.random()*100)}`, JSON.stringify({
-      url,
-      ...{
-        ...options,
-        headers: {
-          ...(isJSONBody ? { 'Content-Type': 'application/json' } : {}),
-          userid: this.user.id,
-          usertoken: this.auth.token,
-          usertype: this.auth.type,
-          'User-Agent': 'okhttp/4.9.3.6',
-          ...options.headers
-        },
-        body: isJSONBody ? JSON.stringify(options.body) : options.body
-      }
-    }))
-
+  
     return fetch(url, {
       ...options,
       headers: {
