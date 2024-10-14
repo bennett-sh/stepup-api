@@ -119,6 +119,7 @@ export class StepUp {
         steps: options.steps,
         calories: options.calories,
         distance: options.distance,
+        dateTime: encodeURIComponent(new Date().toISOString()),
         bg: false // prevents blocking
       },
       body: {
